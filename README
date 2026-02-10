@@ -1,1 +1,141 @@
-explication du code 
+Module d’Audit d’Obsolescence Réseau
+Objectif
+
+Fournir un inventaire réseau minimal et qualifier le statut de support / EOL (End of Life) des éléments détectés.
+Ce module permet d’identifier les composants présents sur un réseau, déterminer leurs OS et versions, puis générer un rapport détaillé pour détecter les systèmes non supportés ou en fin de vie.
+
+Fonctions principales
+
+Scanner un réseau
+
+Utilise Nmap pour détecter les hôtes actifs, leurs adresses IP, OS et versions.
+
+Tente d’identifier le nom d’hôte (hostname) ou le commonName (SSL certificate).
+
+Import CSV
+
+Permet d’importer une liste d’hôtes depuis un fichier CSV avec colonnes : IP, Hostname, OS_Name, OS_Version.
+
+Nettoie et valide les données pour générer un inventaire exploitable.
+
+Extraction des OS et versions
+
+Détecte automatiquement les OS suivants :
+
+Windows (7, 8, 8.1, 10, 11, Vista, XP)
+
+Windows Server (2003 à 2022, avec R2 si applicable)
+
+Ubuntu et Debian (versions détectables par Nmap)
+
+Linux générique (version non détectée par Nmap)
+
+Vérification du statut EOL
+
+Interroge l’API endoflife.date
+ pour chaque produit et version.
+
+Catégorise les hôtes :
+
+✅ Supporté
+
+⚡ EOL proche (<1 an)
+
+🔶 EOL imminent (<90 jours)
+
+❌ Non supporté / EOL dépassé
+
+⚠️ Version non détectable / Vérification manuelle requise
+
+❓ Version inconnue
+
+Affichage interactif
+
+Tableau lisible en console : IP, hostname, OS, version, date EOL, statut.
+
+Génération de rapports
+
+HTML : tableau complet avec code couleur et badges pour les statuts.
+
+CSV : export exploitable pour traitement ou suivi.
+
+Statistiques rapides : nombre de composants totaux, supportés, EOL imminent, non supportés, etc.
+
+Lister toutes les versions d’un OS
+
+Permet de récupérer depuis l’API toutes les versions et leur EOL pour Windows, Windows Server, Ubuntu, Debian.
+
+Installation / Pré-requis
+
+Python 3.x
+
+Modules Python : subprocess, re, csv, os, json, datetime, xml.etree.ElementTree, urllib
+
+Nmap installé sur le système (nmap accessible depuis le PATH)
+
+Connexion Internet pour interroger l’API endoflife.date
+
+Note : Le script est conçu pour Windows mais peut être adapté à Linux.
+
+Utilisation
+
+Lancer le module
+
+python audit_obsolescence.py
+
+
+Menu principal
+
+1. Scanner réseau
+2. Importer CSV
+3. Afficher hôtes
+4. Lister versions d'un OS
+5. Générer rapport
+0. Quitter
+
+
+Scanner réseau : indique une plage réseau (ex: 10.5.70.0/24) pour détecter les hôtes.
+
+Importer CSV : fournit un fichier CSV avec les colonnes obligatoires IP, Hostname, OS_Name, OS_Version.
+
+Afficher hôtes : montre le tableau console mis à jour.
+
+Lister versions OS : liste les versions et EOL d’un OS spécifique.
+
+Générer rapport : crée un HTML et un CSV dans le dossier C:\Users\Administrateur\module3_audit.
+
+Structure du rapport
+
+HTML : tableau coloré avec badge pour chaque statut
+
+CSV : colonnes IP, Hostname/CN, OS, Version, EOL, Statut
+
+Statistiques globales (nombre de composants, EOL imminent, supporté, etc.)
+
+Dossier de sortie
+
+Tous les fichiers générés sont stockés dans :
+
+C:\Users\Administrateur\module3_audit
+
+
+Rapport HTML : rapport.html
+
+Rapport CSV : rapport.csv
+
+Fichier Nmap XML temporaire : scan.xml
+
+Exemple de sortie console
+IP              Hostname / CN                 OS                   Version                       EOL             Statut
+==============================================================================================================
+10.5.70.1       serveur1.local               Windows Server       2016 R2                        2027-01-14      ✅ SUPPORTÉ
+10.5.70.2       ubuntu-vm                    Ubuntu               20.04                          2025-04-30      ⚡ EOL < 1 AN
+10.5.70.3       debian-vm                    Debian               9                              2022-06-30      ❌ NON SUPPORTÉ
+
+Remarques
+
+Le script utilise un cache en mémoire pour éviter les appels API répétitifs.
+
+Les OS Linux non détectables par Nmap nécessitent une vérification manuelle (cat /etc/os-release).
+
+Les fichiers inutiles peuvent être ignorés via .gitignore si versionné avec Git.
