@@ -1,0 +1,5 @@
+IP,Hostname,OS_Name,OS_Version
+10.5.70.10,CCGN-AD,Windows Server,2022
+10.5.70.20,CCGN-MSPR-WClient,Windows,10
+10.5.70.30,ubuntu-srv,Ubuntu,22.04
+10.5.70.40,CCGN-MSPR-debian-srv,Debian,11
