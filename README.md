@@ -26,6 +26,7 @@
 - [Limitations](#-limitations)
 - [Exemples de rapports](#-exemples-de-rapports)
 - [Roadmap](#-roadmap)
+- [Remerciements](#-Remerciements)
 ---
 
 ## 🎯 Vue d'ensemble
