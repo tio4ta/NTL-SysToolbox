@@ -1,100 +1,173 @@
-Audit d'Obsolescence Réseau
+Module d’audit d’obsolescence réseau
+Ce script Python réalise un audit d’obsolescence des systèmes d’exploitation détectés sur un réseau, en se basant sur un scan Nmap et sur les dates de fin de support publiées sur le site endoflife.date via son API.
 
-Ce script Python 3 permet d’effectuer un audit complet des systèmes d’exploitation sur un réseau et de vérifier leur statut de support (EOL).
+Objectifs du script
+Découvrir les hôtes d’une plage réseau et identifier leur OS (Windows, Windows Server, Ubuntu, Debian, Linux générique) grâce à Nmap.
 
-Fonctionnalités principales
+Vérifier pour chaque OS s’il est encore supporté, en fin de vie imminente ou déjà hors support, via l’API endoflife.date.
 
-🔹 Scan réseau avec Nmap pour détecter tous les hôtes actifs.
+Générer automatiquement des rapports exploitables (CSV, JSON, HTML) pour documenter l’état d’obsolescence du parc.
 
-🔹 Extraction automatique des OS : Windows, Windows Server, Ubuntu, Debian.
-
-🔹 Vérification EOL via l’API endoflife.date
-.
-
-🔹 Import de fichiers CSV existants.
-
-🔹 Affichage clair des hôtes avec IP, Hostname, OS, Version, EOL et statut.
-
-🔹 Génération de rapports : CSV, JSON et HTML avec badges colorés.
-
-🔹 Liste des versions supportées pour chaque OS.
+Ce module a évolué au fil de plusieurs versions : gestion d’un cache pour l’API, amélioration de la détection d’OS, prise en charge d’un import CSV existant, ajout d’un rapport HTML plus lisible, et mise en place d’un menu interactif pour l’utiliser sans modifier le code.
 
 Pourquoi Nmap ?
+Nmap est utilisé car c’est un outil largement reconnu pour la découverte réseau et la détection de systèmes d’exploitation et de services, avec des options avancées comme la détection d’OS (-O) et de version de services (-sV).
 
-Nmap est utilisé pour :
+Le script lance Nmap avec les options suivantes :
 
-✅ Détecter les hôtes actifs sur un réseau.
+-O : détection d’OS
 
-✅ Identifier les systèmes d’exploitation et versions.
+-sV : détection de versions de services
 
-✅ Récupérer les informations SSL (commonName).
+--osscan-guess : améliore les « meilleurs efforts » lorsque Nmap n’est pas sûr de l’OS exact.
 
-✅ Scanner sans installer d’agents sur les machines.
+--script ssl-cert : récupère le certificat SSL pour extraire éventuellement le Common Name (CN).
 
-Remarque : Nmap offre un bon compromis vitesse / précision, et permet de récupérer des informations qu’aucun simple script ne pourrait obtenir localement.
+Le choix de Nmap permet de rester non intrusif (scan réseau passif du point de vue des systèmes scannés) et de ne pas nécessiter d’agent sur les machines cibles.
 
-Limites connues
+Limites sur les versions Linux
+La détection précise de la version d’une distribution Linux via un simple scan réseau est très limitée : Nmap se base sur des empreintes réseau (stack TCP/IP, réponses aux sondes, bannières de services), ce qui permet souvent d’identifier « Linux » mais pas la version exacte d’Ubuntu/Debian ou du kernel.
 
-Versions Linux : Nmap ne détecte pas toujours les versions exactes des distributions. Dans ce cas, le script indique :
-Version non détectée par Nmap et recommande une vérification manuelle (cat /etc/os-release).
+Pour Linux, la méthode fiable consiste à interroger directement la machine (par exemple via cat /etc/os-release), ce que ce script ne peut pas faire puisqu’il travaille uniquement à partir d’un scan réseau.
+​
 
-Historique et évolutions :
+C’est pour cela que :
 
-Gestion des différentes versions de Windows (XP → 11).
+Les OS Linux génériques remontés par Nmap sont indiqués comme « Linux – Version non détectée par Nmap ».
 
-Support des serveurs Windows avec R2.
+Le script signale explicitement qu’une vérification manuelle est nécessaire pour ces cas.
 
-Robustesse du parsing XML Nmap.
+Fonctionnement global
+Scan réseau d’une plage IP avec Nmap et export en XML.
 
-Ajout d’un cache pour limiter les appels à l’API EOL.
+Parsing du fichier XML pour reconstruire une liste d’hôtes avec : IP, hostname/CN, OS, version.
 
-Génération automatique de rapports CSV, JSON et HTML.
+Normalisation de l’OS et de la version (Windows, Windows Server, Ubuntu, Debian, Linux).
 
-Installation
-git clone https://github.com/ton-utilisateur/ton-repo.git
-cd ton-repo
-pip install -r requirements.txt
+Appel à l’API endoflife.date pour chaque couple OS/version afin de récupérer les dates de support et EOL.
 
+Calcul du statut : SUPPORTÉ, EOL < 1 AN, EOL IMMINENT, NON SUPPORTÉ, ou cas particuliers (version inconnue, non détectable).
 
-⚠️ Nmap doit être installé sur la machine pour que le script fonctionne.
+Affichage console + génération de rapports CSV/JSON/HTML dans un dossier de sortie.
 
-Utilisation
+Présentation des principaux blocs du script
+1. Configuration globale
+OUTPUT_DIR : dossier de sortie des fichiers (scan.xml, rapports CSV/JSON/HTML).
 
-Lancer le script :
+EOL_CACHE : cache en mémoire pour éviter d’appeler plusieurs fois l’API endoflife.date pour la même version.
 
-python audit_obsolescence.py
+2. Récupération des dates de fin de support (API endoflife.date)
+Fonction : get_eol_from_api(product, version)
 
+Pré-normalisation des versions pour Windows / Windows Server (ex. 2012 R2, 2016, 10, 11, etc.).
 
-Menu interactif :
+Mapping des noms internes (Windows, Windows Server, Ubuntu, Debian) vers les produits de l’API (windows, windows-server, ubuntu, debian).
 
-Scanner réseau (ex: 10.5.70.0/24)
+Téléchargement du JSON de l’API pour le produit concerné, puis recherche du cycle correspondant à la version demandée.
+​
 
-Importer CSV
+Renvoi de la date de fin de support et/ou de la date EOL, avec mise en cache du résultat dans EOL_CACHE pour optimiser les appels suivants.
+​
 
-Afficher hôtes détectés
+3. Scan réseau avec Nmap
+Fonction : scan_network(network)
 
-Lister versions d’un OS
+Construction de la commande Nmap avec les options d’OS detection, de version de services, de script ssl-cert et d’export XML (-oX scan.xml).
 
-Générer rapport (CSV, JSON, HTML)
+Exécution de Nmap via subprocess.run avec un timeout de 30 minutes.
+
+Passage du fichier XML généré à la fonction parse_xml pour extraire les informations hôte par hôte.
+
+4. Analyse du XML Nmap et extraction OS/hostname
+Fonction : parse_xml(xml_file)
+
+Parcours des nœuds <host> dont l’état est up.
+
+Récupération de l’IP (adresse IPv4), du hostname si connu par Nmap, ou à défaut du Common Name du certificat SSL (via extract_common_name).
+
+Récupération des blocs d’OS détectés (osmatch), puis normalisation de la chaîne brute de Nmap grâce à extract_os.
+
+Fonction : extract_os(os_string)
+
+Détection de Debian/Ubuntu par motif, avec extraction de la version si possible.
+
+Détection des versions Windows Desktop (XP, Vista, 7, 8, 8.1, 10, 11).
+
+Détection des versions Windows Server (2003, 2008, 2012, 2016, 2019, 2022, avec gestion de R2).
+
+Cas Linux générique : renvoi « Linux – Version non détectée par Nmap » pour signaler la limite de la méthode.
+
+Fonction : extract_common_name(host_elem)
+
+Parcourt les résultats du script ssl-cert dans le XML pour récupérer le commonName du certificat, utile comme hostname logique quand le nom DNS n’est pas connu.
+
+5. Import d’un CSV existant
+Fonction : import_csv(csv_file)
+
+Essaye plusieurs chemins possibles (dossier courant, OUTPUT_DIR, nom de fichier simple) pour retrouver le CSV.
+
+Lit un CSV avec des colonnes IP, Hostname, OS_Name, OS_Version, et reconstruit la liste d’hôtes dans le même format que celui du scan Nmap.
+
+Permet de réutiliser un inventaire existant sans refaire un scan complet.
+
+6. Calcul du statut d’obsolescence
+Fonction : get_status(os_name, version)
+
+Gère les cas où l’OS ou la version sont inconnus ou non détectables (notamment Linux générique).
+
+Appelle get_eol_from_api pour obtenir la date EOL et calcule le nombre de jours restants.
+
+Retourne un statut lisible :
+
+SUPPORTÉ
+
+EOL < 1 AN
+
+EOL IMMINENT
+
+NON SUPPORTÉ
+
+Ou des messages spécifiques en cas de version inconnue/non détectable.
+
+7. Affichage et génération de rapports
+Fonction : show_hosts(hosts)
+
+Affiche un tableau en console avec : IP, Hostname/CN, OS, Version, EOL, Statut.
+
+Le statut résulte de get_status, ce qui permet un coup d’œil rapide sur les systèmes à risque.
+
+Fonction : generate_report(hosts, base_filename="rapport")
+
+Génère trois fichiers dans OUTPUT_DIR :
+
+CSV : pour exploitation dans Excel/Power BI.
+
+JSON : pour intégration dans d’autres outils/scripts.
+
+HTML : rapport lisible dans un navigateur avec un code couleur (badges) en fonction du statut.
+
+8. Listing des versions d’un OS
+Fonction : list_all_versions(os_name)
+
+Interroge l’API endoflife.date pour un OS donné (Windows, Windows Server, Ubuntu, Debian) et affiche les principaux cycles avec leurs dates de support et EOL.
+
+Donne un aperçu rapide des versions encore actives ou déjà terminées.
+
+9. Menu interactif
+Fonction : menu()
+
+Propose une interface en ligne de commande avec les options suivantes :
+
+Scanner réseau
+
+Importer un CSV
+
+Afficher les hôtes
+
+Lister les versions d’un OS
+
+Générer un rapport
 
 Quitter
 
-Exemple de sortie
-IP	Hostname / CN	OS	Version	Date EOL	Statut
-10.5.70.12	srv1	Windows 10	21H2	2025-10-14	SUPPORTÉ
-10.5.70.15	srv2	Ubuntu	20.04	2025-04-30	EOL < 1 AN
-10.5.70.18	srv3	Debian	Unknown	N/A	Vérification manuelle requise
-
-⚡ Les badges HTML du rapport permettent de visualiser rapidement le statut : rouge = obsolète, orange = EOL imminent, vert = supporté.
-
-Conclusion
-
-Ce script est un outil pratique pour les administrateurs réseau :
-
-Identifier rapidement les systèmes obsolètes.
-
-Générer des rapports clairs et exportables.
-
-Anticiper les mises à jour avant la fin de support.
-
-Il combine automatisation, précision et flexibilité grâce à Nmap et l’API EOL, tout en restant simple et léger.
+C’est le point d’entrée principal (if __name__ == "__main__": menu()), ce qui permet d’utiliser le script comme un petit outil interactif sans modifier le code.
