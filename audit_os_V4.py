@@ -3,7 +3,10 @@
 """
 Module d'Audit d'Obsolescence Réseau
 """
-
+# ===== FIX SSL WINDOWS =====
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+# ==========================
 import subprocess
 import re
 import csv
