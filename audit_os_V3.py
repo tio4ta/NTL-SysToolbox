@@ -451,8 +451,8 @@ def menu():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     print("""
 ╔══════════════════════════════════════════════════════════╗
-║   🔍 MODULE D'AUDIT D'OBSOLESCENCE RÉSEAU               ║
-║   📡 Données EOL en temps réel depuis endoflife.date    ║
+║         MODULE 3 : AUDIT D'OBSOLESCENCE RÉSEAU           ║
+║                                                          ║
 ╚══════════════════════════════════════════════════════════╝
     """)
     hosts = []
