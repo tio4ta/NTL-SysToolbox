@@ -1,0 +1,7 @@
+# Module d'audit d'obsolescence réseau
+
+Audit automatique de l’obsolescence des OS (Windows / Linux) détectés par Nmap, avec calcul des dates EOL via endoflife.date.
+
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Nmap](https://img.shields.io/badge/Nmap-required-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
