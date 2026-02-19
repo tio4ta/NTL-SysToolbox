@@ -115,28 +115,6 @@ Si vous obtenez cette erreur lors de l'utilisation du script sur Windows :
 
 **En résumé** : Python Windows ne trouve pas le certificat racine nécessaire pour valider `https://endoflife.date`, même si le certificat est parfaitement valide.
 
-### ✅ **SOLUTION (30 secondes)**
-
-**Ajoutez CES 3 LIGNES au début du script** (après les docstrings, ligne 8-10 environ) :
-
-```python
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Module d'Audit d'Obsolescence Réseau
-"""
-
-# ===== FIX SSL WINDOWS (OBLIGATOIRE SUR WINDOWS) =====
-import ssl
-ssl._create_default_https_context = ssl._create_unverified_context
-# =====================================================
-
-import subprocess
-import re
-import csv
-# ... reste du code INCHANGÉ ...
-```
-
 ### 📝 **Explication du fix**
 
 | Ligne | Effet |
