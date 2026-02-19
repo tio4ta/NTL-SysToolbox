@@ -4,3 +4,6 @@
 - [Installation](#installation)
 - [Utilisation](#utilisation)
 - [Limites](#limites)
+
+import ssl
+context = ssl._create_unverified_context()
