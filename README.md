@@ -1,6 +1,7 @@
+```powershell
 Module d’audit d’obsolescence réseau
 Ce script Python réalise un audit d’obsolescence des systèmes d’exploitation détectés sur un réseau, en se basant sur un scan Nmap et sur les dates de fin de support publiées sur le site endoflife.date via son API.
-
+```
 Objectifs du script
 Découvrir les hôtes d’une plage réseau et identifier leur OS (Windows, Windows Server, Ubuntu, Debian, Linux générique) grâce à Nmap.
 
