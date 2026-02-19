@@ -1,141 +1,100 @@
-Module d’Audit d’Obsolescence Réseau
-Objectif
+Audit d'Obsolescence Réseau
 
-Fournir un inventaire réseau minimal et qualifier le statut de support / EOL (End of Life) des éléments détectés.
-Ce module permet d’identifier les composants présents sur un réseau, déterminer leurs OS et versions, puis générer un rapport détaillé pour détecter les systèmes non supportés ou en fin de vie.
+Ce script Python 3 permet d’effectuer un audit complet des systèmes d’exploitation sur un réseau et de vérifier leur statut de support (EOL).
 
-Fonctions principales
+Fonctionnalités principales
 
-Scanner un réseau
+🔹 Scan réseau avec Nmap pour détecter tous les hôtes actifs.
 
-Utilise Nmap pour détecter les hôtes actifs, leurs adresses IP, OS et versions.
+🔹 Extraction automatique des OS : Windows, Windows Server, Ubuntu, Debian.
 
-Tente d’identifier le nom d’hôte (hostname) ou le commonName (SSL certificate).
+🔹 Vérification EOL via l’API endoflife.date
+.
 
-Import CSV
+🔹 Import de fichiers CSV existants.
 
-Permet d’importer une liste d’hôtes depuis un fichier CSV avec colonnes : IP, Hostname, OS_Name, OS_Version.
+🔹 Affichage clair des hôtes avec IP, Hostname, OS, Version, EOL et statut.
 
-Nettoie et valide les données pour générer un inventaire exploitable.
+🔹 Génération de rapports : CSV, JSON et HTML avec badges colorés.
 
-Extraction des OS et versions
+🔹 Liste des versions supportées pour chaque OS.
 
-Détecte automatiquement les OS suivants :
+Pourquoi Nmap ?
 
-Windows (7, 8, 8.1, 10, 11, Vista, XP)
+Nmap est utilisé pour :
 
-Windows Server (2003 à 2022, avec R2 si applicable)
+✅ Détecter les hôtes actifs sur un réseau.
 
-Ubuntu et Debian (versions détectables par Nmap)
+✅ Identifier les systèmes d’exploitation et versions.
 
-Linux générique (version non détectée par Nmap)
+✅ Récupérer les informations SSL (commonName).
 
-Vérification du statut EOL
+✅ Scanner sans installer d’agents sur les machines.
 
-Interroge l’API endoflife.date
- pour chaque produit et version.
+Remarque : Nmap offre un bon compromis vitesse / précision, et permet de récupérer des informations qu’aucun simple script ne pourrait obtenir localement.
 
-Catégorise les hôtes :
+Limites connues
 
-✅ Supporté
+Versions Linux : Nmap ne détecte pas toujours les versions exactes des distributions. Dans ce cas, le script indique :
+Version non détectée par Nmap et recommande une vérification manuelle (cat /etc/os-release).
 
-⚡ EOL proche (<1 an)
+Historique et évolutions :
 
-🔶 EOL imminent (<90 jours)
+Gestion des différentes versions de Windows (XP → 11).
 
-❌ Non supporté / EOL dépassé
+Support des serveurs Windows avec R2.
 
-⚠️ Version non détectable / Vérification manuelle requise
+Robustesse du parsing XML Nmap.
 
-❓ Version inconnue
+Ajout d’un cache pour limiter les appels à l’API EOL.
 
-Affichage interactif
+Génération automatique de rapports CSV, JSON et HTML.
 
-Tableau lisible en console : IP, hostname, OS, version, date EOL, statut.
+Installation
+git clone https://github.com/ton-utilisateur/ton-repo.git
+cd ton-repo
+pip install -r requirements.txt
 
-Génération de rapports
 
-HTML : tableau complet avec code couleur et badges pour les statuts.
-
-CSV : export exploitable pour traitement ou suivi.
-
-Statistiques rapides : nombre de composants totaux, supportés, EOL imminent, non supportés, etc.
-
-Lister toutes les versions d’un OS
-
-Permet de récupérer depuis l’API toutes les versions et leur EOL pour Windows, Windows Server, Ubuntu, Debian.
-
-Installation / Pré-requis
-
-Python 3.x
-
-Modules Python : subprocess, re, csv, os, json, datetime, xml.etree.ElementTree, urllib
-
-Nmap installé sur le système (nmap accessible depuis le PATH)
-
-Connexion Internet pour interroger l’API endoflife.date
-
-Note : Le script est conçu pour Windows mais peut être adapté à Linux.
+⚠️ Nmap doit être installé sur la machine pour que le script fonctionne.
 
 Utilisation
 
-Lancer le module
+Lancer le script :
 
 python audit_obsolescence.py
 
 
-Menu principal
+Menu interactif :
 
-1. Scanner réseau
-2. Importer CSV
-3. Afficher hôtes
-4. Lister versions d'un OS
-5. Générer rapport
-0. Quitter
+Scanner réseau (ex: 10.5.70.0/24)
 
+Importer CSV
 
-Scanner réseau : indique une plage réseau (ex: 10.5.70.0/24) pour détecter les hôtes.
+Afficher hôtes détectés
 
-Importer CSV : fournit un fichier CSV avec les colonnes obligatoires IP, Hostname, OS_Name, OS_Version.
+Lister versions d’un OS
 
-Afficher hôtes : montre le tableau console mis à jour.
+Générer rapport (CSV, JSON, HTML)
 
-Lister versions OS : liste les versions et EOL d’un OS spécifique.
+Quitter
 
-Générer rapport : crée un HTML et un CSV dans le dossier C:\Users\Administrateur\module3_audit.
+Exemple de sortie
+IP	Hostname / CN	OS	Version	Date EOL	Statut
+10.5.70.12	srv1	Windows 10	21H2	2025-10-14	SUPPORTÉ
+10.5.70.15	srv2	Ubuntu	20.04	2025-04-30	EOL < 1 AN
+10.5.70.18	srv3	Debian	Unknown	N/A	Vérification manuelle requise
 
-Structure du rapport
+⚡ Les badges HTML du rapport permettent de visualiser rapidement le statut : rouge = obsolète, orange = EOL imminent, vert = supporté.
 
-HTML : tableau coloré avec badge pour chaque statut
+Conclusion
 
-CSV : colonnes IP, Hostname/CN, OS, Version, EOL, Statut
+Ce script est un outil pratique pour les administrateurs réseau :
 
-Statistiques globales (nombre de composants, EOL imminent, supporté, etc.)
+Identifier rapidement les systèmes obsolètes.
 
-Dossier de sortie
+Générer des rapports clairs et exportables.
 
-Tous les fichiers générés sont stockés dans :
+Anticiper les mises à jour avant la fin de support.
 
-C:\Users\Administrateur\module3_audit
-
-
-Rapport HTML : rapport.html
-
-Rapport CSV : rapport.csv
-
-Fichier Nmap XML temporaire : scan.xml
-
-Exemple de sortie console
-IP              Hostname / CN                 OS                   Version                       EOL             Statut
-==============================================================================================================
-10.5.70.1       serveur1.local               Windows Server       2016 R2                        2027-01-14      ✅ SUPPORTÉ
-10.5.70.2       ubuntu-vm                    Ubuntu               20.04                          2025-04-30      ⚡ EOL < 1 AN
-10.5.70.3       debian-vm                    Debian               9                              2022-06-30      ❌ NON SUPPORTÉ
-
-Remarques
-
-Le script utilise un cache en mémoire pour éviter les appels API répétitifs.
-
-Les OS Linux non détectables par Nmap nécessitent une vérification manuelle (cat /etc/os-release).
-
-Les fichiers inutiles peuvent être ignorés via .gitignore si versionné avec Git.
+Il combine automatisation, précision et flexibilité grâce à Nmap et l’API EOL, tout en restant simple et léger.
