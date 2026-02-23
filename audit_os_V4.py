@@ -14,6 +14,8 @@ import os
 import json
 from datetime import datetime
 import xml.etree.ElementTree as ET
+import platform
+from pathlib import Path
 
 try:
     import urllib.request
@@ -22,7 +24,17 @@ except ImportError:
     print("[!] Erreur: urllib requis")
     exit(1)
 
-OUTPUT_DIR = r"C:\\Users\\Administrateur\\module3_audit"
+# =======================
+# Dossier de sortie portable Windows / Linux
+if platform.system() == "Windows":
+    OUTPUT_DIR = Path.home() / "Documents" / "audit_rapports"
+else:
+    OUTPUT_DIR = Path.home() / "audit_rapports"
+
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+print(f"Dossier de sortie: {OUTPUT_DIR}")
+# =======================
+
 EOL_CACHE = {}
 
 def get_eol_from_api(product, version):
