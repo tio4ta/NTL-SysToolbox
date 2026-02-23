@@ -20,7 +20,7 @@
 
 - [Vue d'ensemble](#-vue-densemble)
 - [Fonctionnalités](#-fonctionnalités)
-- [🚨 Fix SSL Windows](#-fix-ssl-windows-obligatoire)
+- [SSL Windows](#ssl-windows-obligatoire)
 - [Prérequis](#-prérequis)
 - [Installation](#-installation)
 - [Utilisation](#-utilisation)
@@ -94,7 +94,7 @@ Menu interactif en ligne de commande :
 
 ---
 
-## 🚨 **FIX SSL WINDOWS (OBLIGATOIRE)**
+## **SSL WINDOWS (OBLIGATOIRE)**
 
 ### ⚠️ **Problème courant sur Windows**
 
