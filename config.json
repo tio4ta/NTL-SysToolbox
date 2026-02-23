@@ -1,0 +1,7 @@
+{
+    "DC_IP": "10.5.70.10",
+    "MYSQL_HOST": "10.5.70.40",
+    "MYSQL_USER": "admin_ntl",
+    "MYSQL_PASSWORD": "Ntl2026!",
+    "MYSQL_DB": "ntl_wms"
+}
