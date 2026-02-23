@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS = {
     "1": {
         "name": "Diag - module_diag.py",
-        "path": os.path.join(BASE_DIR, "Diag", "main.py"),
+        "path": os.path.join(BASE_DIR, "Diag", "module_diag.py"),
         "type": "python"
     },
     "2": {
@@ -65,3 +65,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
