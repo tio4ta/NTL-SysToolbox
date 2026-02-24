@@ -1,20 +1,20 @@
 {
     "ssh": {
-        "host": "10.5.70.40",
-        "user": "ssh_ntl",
-        "pass": "Ntl2026!"
+        "host": "ADRESSE IP DE LA BDD",
+        "user": "USER SSH DE LA BDD",
+        "pass": "MDP DU USER"
     },
     "db": {
-        "user": "admin_ntl",
-        "pass": "Ntl2026!",
-        "name": "ntl_wms"
+        "user": "USER MYSQL",
+        "pass": "MDP MYSQL"
     },
     "dc": {
-        "host": "10.5.70.10",
-        "user": "Administrateur",
-        "pass": "AAaa11!!"
+        "host": "ADRESSE IP DU DC",
+        "user": "USER ADMINISTRATEUR DU DC",
+        "pass": "MDP DE L'ADMIN"
     },
     "paths": {
         "local_backup_dir": "./Backup/Sauvegardes/"
     }
+
 }
