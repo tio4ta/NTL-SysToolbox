@@ -100,7 +100,7 @@ def scan_network(network):
     """Scan réseau avec Nmap"""
     print(f"\n[*] Scan de {network}...")
     xml_file = os.path.join(OUTPUT_DIR, "scan.xml")
-    cmd = ["nmap", "-O", "-sV", "-Pn", "--osscan-guess", "--script", "ssl-cert", "-T4", "-oX", xml_file, network]
+    cmd = ["nmap", "--privileged", "-O", "-sV", "-Pn", "--osscan-guess", "--script", "ssl-cert", "-T4", "-oX", xml_file, network]
 
     try:
         subprocess.run(cmd, timeout=1800, check=True)
