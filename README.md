@@ -88,15 +88,15 @@ La configuration tient dans un fichier simple, surchargeable par variables d'env
 
 Créez un fichier nommé config.json à la racine de l'exécutable pour automatiser les tests AD et SQL. 
 
-Voici un exemple de configuration :
-
-   {
+1. **Voici un exemple de configuration :
+    ```Bash
+    {
     "DC_IP": "192.168.10.10",
     "MYSQL_HOST": "192.168.10.21",
     "MYSQL_USER": "root",
     "MYSQL_PASSWORD": "VotreMotDePasse",
     "MYSQL_DB": "wms_db"
-   }
+    }
 
 ## Utilisation
 
