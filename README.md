@@ -82,7 +82,7 @@ Le projet doit être livré dans un dépôt Git propre, avec un historique lisib
    ```Bash
    pip install pymysql paramiko pywinrm
 
-## 🔧 Configuration
+## Configuration
 
 La configuration tient dans un fichier simple, surchargeable par variables d'environnement.
 
