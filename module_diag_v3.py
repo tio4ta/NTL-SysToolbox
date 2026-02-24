@@ -1,5 +1,4 @@
 import socket
-import str
 import datetime
 import json
 import pymysql
@@ -11,7 +10,6 @@ import winrm
 
 # --- Gestion de la Config ---
 def load_config():
-    """Charge la configuration depuis config.json et surcharge avec les variables d'environnement."""
     config = {}
     if os.path.exists("config.json"):
         with open("config.json", "r") as f:
@@ -30,7 +28,6 @@ def get_timestamp():
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 def format_output(module_name, status, data):
-    """Génère le JSON standardisé et lisible."""
     return json.dumps({
         "timestamp": get_timestamp(),
         "module": module_name,
@@ -75,11 +72,10 @@ def exec_check_sql():
 # --- 3. Métriques Windows (via WinRM / PowerShell) ---
 def exec_windows_metrics(ip, username, password):
     try:
-        # Connexion WinRM (Port 5985 par défaut)
         session = winrm.Session(f'http://{ip}:5985/wsman', auth=(username, password), transport='ntlm')
         
-        # Script PowerShell exécuté à distance pour formater directement en JSON
-        ps_script = """
+        # Ajout du 'r' pour éviter le SyntaxWarning sur les caractères d'échappement
+        ps_script = r"""
         $os = Get-CimInstance Win32_OperatingSystem
         $cpu = (Get-CimInstance Win32_Processor | Measure-Object -Property LoadPercentage -Average).Average
         $ram = [math]::Round((($os.TotalVisibleMemorySize - $os.FreePhysicalMemory) / $os.TotalVisibleMemorySize) * 100, 2)
@@ -112,10 +108,9 @@ def exec_windows_metrics(ip, username, password):
 def exec_ubuntu_metrics(ip, username, password):
     try:
         client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy()) # Accepte la clé SSH automatiquement
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
         client.connect(ip, username=username, password=password, timeout=5)
 
-        # Commandes Bash exécutées à distance
         commands = {
             "os_version": "cat /etc/os-release | grep PRETTY_NAME | cut -d '\"' -f 2",
             "uptime": "uptime -p",
