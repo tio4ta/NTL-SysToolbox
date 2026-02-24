@@ -1,16 +1,17 @@
 # NTL-SysToolbox - Module 1 : Diagnostic Système
 
 ## 📑 Table des matières
-1. [Vue d'ensemble](#vue-densemble)
-2. [Fonctionnalités](#fonctionnalités)
-3. [Vue utilisateur](#vue-utilisateur)
-4. [Architecture](#architecture)
-5. [Prérequis](#prérequis)
-6. [Bibliothèques Python](#bibliothèques-python)
-7. [Installation](#installation)
-8. [Configuration](#configuration)
-9. [Utilisation](#utilisation)
 
+1. Vue d'ensemble
+2. Fonctionnalités
+3. Vue utilisateur
+4. Architecture
+5. Prérequis
+6. Bibliothèques Python
+7. Installation
+8. Configuration
+9. Utilisation
+    
 ---
 
 ## 🌍 Vue d'ensemble
@@ -70,9 +71,60 @@ Le projet s'appuie sur des bibliothèques robustes :
 
 ## 📥 Installation
 
-[cite_start]Le projet doit être livré dans un dépôt Git propre, avec un historique lisible et des branches de travail isolées[cite: 115].
+Le projet doit être livré dans un dépôt Git propre, avec un historique lisible et des branches de travail isolées.
 
 1. **Cloner le dépôt :**
-   ```bash
+   ```Bash
    git clone <URL_DU_DEPOT_GIT>
    cd NTL-SysToolbox
+
+2. **Installer les paquets Python requis :**
+   ```Bash
+   pip install pymysql paramiko pywinrm
+
+## 🔧 Configuration
+
+La configuration tient dans un fichier simple, surchargeable par variables d'environnement.
+
+Créez un fichier nommé config.json à la racine de l'exécutable pour automatiser les tests AD et SQL. 
+
+Voici un exemple de configuration :
+
+   {
+    "DC_IP": "192.168.10.10",
+    "MYSQL_HOST": "192.168.10.21",
+    "MYSQL_USER": "root",
+    "MYSQL_PASSWORD": "VotreMotDePasse",
+    "MYSQL_DB": "wms_db"
+   }
+
+## 🚀 Utilisation
+
+Avec ces éléments, la DSI doit pouvoir déployer l'outil sur une machine standard et l'utiliser sans assistance
+
+1. **Lancez l'outil au travers de son interface interactive: **
+   ```Bash
+   pip install pymysql paramiko pywinrm
+
+2. **Un menu s'affiche à l'écran. Saisissez le numéro correspondant au test souhaité (1 à 4).**
+
+3. **Pour les tests sur les serveurs distants (Options 3 et 4), l'outil vous demandera l'adresse IP de la cible ainsi que vos identifiants administrateurs. Ces derniers sont masqués lors de la frappe pour des raisons de sécurité.**
+
+## 📊 Exemple de résultat (JSON)
+Toutes les exécutions produisent des sorties horodatées, lisibles, avec des codes de retour exploitables. Voici un exemple de sortie pour le diagnostic d'un serveur Ubuntu :
+
+```JSON
+{
+    "timestamp": "2026-02-24T10:15:30.123456+00:00",
+    "module": "Metrics Ubuntu (SSH)",
+    "global_status": "OK",
+    "data": {
+        "declared_target_ip": "192.168.10.22",
+        "expected_os": "Ubuntu",
+        "os_version": "Ubuntu 20.04.6 LTS",
+        "uptime": "up 2 weeks, 3 days, 4 hours, 12 minutes",
+        "cpu_load": "18.5%",
+        "ram_usage": "62.1%",
+        "disk_usage": "45%"
+    }
+}
