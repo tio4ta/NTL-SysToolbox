@@ -498,10 +498,6 @@ Dossier de sortie: /home/user/audit_rapports
 
 ---
 
-## Support et Contact
-
-Pour toute question ou problème concernant ce module, veuillez contacter votre formateur ou référent technique.
-
 ## Licence
 
 Module développé dans le cadre d'une épreuve de formation en administration systèmes et réseaux.
@@ -510,4 +506,4 @@ Module développé dans le cadre d'une épreuve de formation en administration s
 
 **Version :** 1.0  
 **Date de création :** Février 2026  
-**Auteur :** [Votre Nom]
+**Auteur :** tio4ta
