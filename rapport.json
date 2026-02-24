@@ -1,0 +1,50 @@
+[
+    {
+        "ip": "10.5.70.10",
+        "hostname": "CCGN-AD.CCGN.local",
+        "os": "Windows Server",
+        "version": "2022",
+        "eol": "2031-10-14",
+        "status": "SUPPORTÉ"
+    },
+    {
+        "ip": "10.5.70.21",
+        "hostname": "CCGN-MSPR-WClient",
+        "os": "Windows",
+        "version": "10",
+        "eol": "2025-10-14",
+        "status": "NON SUPPORTÉ"
+    },
+    {
+        "ip": "10.5.70.30",
+        "hostname": "",
+        "os": "Linux",
+        "version": "Version non détectée par Nmap",
+        "eol": "Vérification manuelle requise (cat /etc/os-release)",
+        "status": "Version Linux non détectable par Nmap"
+    },
+    {
+        "ip": "10.5.70.40",
+        "hostname": "",
+        "os": "Linux",
+        "version": "Version non détectée par Nmap",
+        "eol": "Vérification manuelle requise (cat /etc/os-release)",
+        "status": "Version Linux non détectable par Nmap"
+    },
+    {
+        "ip": "10.5.70.50",
+        "hostname": "",
+        "os": "Linux",
+        "version": "Version non détectée par Nmap",
+        "eol": "Vérification manuelle requise (cat /etc/os-release)",
+        "status": "Version Linux non détectable par Nmap"
+    },
+    {
+        "ip": "10.5.70.60",
+        "hostname": "",
+        "os": "Windows",
+        "version": "10",
+        "eol": "2025-10-14",
+        "status": "NON SUPPORTÉ"
+    }
+]
