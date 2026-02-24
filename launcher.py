@@ -8,18 +8,18 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SCRIPTS = {
     "1": {
-        "name": "Diag - module_diag.py",
-        "path": os.path.join(BASE_DIR, "Diag", "module_diag.py"),
+        "name": "Diagnostic",
+        "path": os.path.join(BASE_DIR, "Diagnostic", "diag.py"),
         "type": "python"
     },
     "2": {
-        "name": "WMS - ntl_tool.sh",
-        "path": os.path.join(BASE_DIR, "WMS", "ntl_tool.sh"),
-        "type": "bash"
+        "name": "WMS - Backup",
+        "path": os.path.join(BASE_DIR, "Backup", "wms.py"),
+        "type": "python"
     },
     "3": {
-        "name": "Audit Obsolescence - audit_os_V4.py",
-        "path": os.path.join(BASE_DIR, "Audit_obsolescence", "audit_os_V4.py"),
+        "name": "Audit Obsolescence",
+        "path": os.path.join(BASE_DIR, "Obsolescence", "audit.py"),
         "type": "python"
     }
 }
@@ -29,7 +29,7 @@ def afficher_menu():
     print("\n===== NTL SysToolbox =====")
     for key, value in SCRIPTS.items():
         print(f"{key} - {value['name']}")
-    print("0 - Quitter")
+    print("Q - Quitter")
 
 
 def lancer_script(choix):
@@ -53,7 +53,7 @@ def main():
         afficher_menu()
         choix = input("Votre choix : ").strip()
 
-        if choix == "0":
+        if choix == "Q":
             print("Au revoir")
             break
         elif choix in SCRIPTS:

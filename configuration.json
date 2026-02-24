@@ -1,0 +1,20 @@
+{
+    "ssh": {
+        "host": "10.5.70.40",
+        "user": "ssh_ntl",
+        "pass": "Ntl2026!"
+    },
+    "db": {
+        "user": "admin_ntl",
+        "pass": "Ntl2026!",
+        "name": "ntl_wms"
+    },
+    "dc": {
+        "host": "10.5.70.10",
+        "user": "Administrateur",
+        "pass": "AAaa11!!"
+    },
+    "paths": {
+        "local_backup_dir": "./Backup/Sauvegardes/"
+    }
+}
