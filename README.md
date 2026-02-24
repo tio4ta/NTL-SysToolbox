@@ -82,6 +82,8 @@ Le projet doit être livré dans un dépôt Git propre, avec un historique lisib
    ```Bash
    pip install pymysql paramiko pywinrm
 
+---
+
 ## Configuration
 
 La configuration tient dans un fichier simple, surchargeable par variables d'environnement.
@@ -97,6 +99,7 @@ Créez un fichier nommé config.json à la racine de l'exécutable pour automati
     "MYSQL_PASSWORD": "VotreMotDePasse",
     "MYSQL_DB": "wms_db"
     }
+---
 
 ## Utilisation
 
@@ -109,6 +112,8 @@ Avec ces éléments, la DSI doit pouvoir déployer l'outil sur une machine stand
 2. Un menu s'affiche à l'écran. Saisissez le numéro correspondant au test souhaité (1 à 4).
 
 3. Pour les tests sur les serveurs distants (Options 3 et 4), l'outil vous demandera l'adresse IP de la cible ainsi que vos identifiants administrateurs. Ces derniers sont masqués lors de la frappe pour des raisons de sécurité.
+
+---
 
 ## Exemple de résultat (JSON)
 Toutes les exécutions produisent des sorties horodatées, lisibles, avec des codes de retour exploitables. Voici un exemple de sortie pour le diagnostic d'un serveur Ubuntu :
