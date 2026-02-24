@@ -102,13 +102,13 @@ Créez un fichier nommé config.json à la racine de l'exécutable pour automati
 
 Avec ces éléments, la DSI doit pouvoir déployer l'outil sur une machine standard et l'utiliser sans assistance
 
-1. Lancez l'outil au travers de son interface interactive: **
+1. Lancez l'outil au travers de son interface interactive: 
    ```Bash
    pip install pymysql paramiko pywinrm
 
-2. Un menu s'affiche à l'écran. Saisissez le numéro correspondant au test souhaité (1 à 4).**
+2. Un menu s'affiche à l'écran. Saisissez le numéro correspondant au test souhaité (1 à 4).
 
-3. Pour les tests sur les serveurs distants (Options 3 et 4), l'outil vous demandera l'adresse IP de la cible ainsi que vos identifiants administrateurs. Ces derniers sont masqués lors de la frappe pour des raisons de sécurité.**
+3. Pour les tests sur les serveurs distants (Options 3 et 4), l'outil vous demandera l'adresse IP de la cible ainsi que vos identifiants administrateurs. Ces derniers sont masqués lors de la frappe pour des raisons de sécurité.
 
 ## Exemple de résultat (JSON)
 Toutes les exécutions produisent des sorties horodatées, lisibles, avec des codes de retour exploitables. Voici un exemple de sortie pour le diagnostic d'un serveur Ubuntu :
