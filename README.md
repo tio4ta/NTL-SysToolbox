@@ -77,6 +77,7 @@ Bash
 
 python WMSManager.py
 
+
 6. Arborescence du projet
 Structure des fichiers incluse dans le dépôt Git:
 
