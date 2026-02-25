@@ -1,68 +1,71 @@
 NTL-SysToolbox : Module WMS Manager
 1. Présentation
-Le WMS Manager est une application Python développée pour la DSI de NTL. Elle permet de garantir la résilience et la portabilité des données du système d'entrepôt (WMS) de manière automatisée et sécurisée.
+Le WMS Manager est une application Python développée pour la Direction IT de NTL. Elle a pour objectif de garantir la résilience et la portabilité des données du système de gestion d'entrepôt (WMS).
 
-L'application remplace les anciens scripts d'exploitation par une solution orientée objet, facilitant la maintenance et l'évolution du code.
+Cette solution remplace les anciens scripts d'exploitation par une architecture logicielle orientée objet, ce qui permet une maintenance simplifiée et une meilleure évolutivité du code.
 
-2. Fonctionnalités clés
-L'application propose trois modes opératoires principaux :
+2. Fonctionnalités
+L'application intègre trois modules principaux :
 
-Backup SQL : Extraction automatique des tables critiques (expedition, reception) via SSH/SFTP et stockage local horodaté.
+Sauvegarde SQL : Extraction automatisée des tables critiques (expedition, reception) via un tunnel sécurisé SSH/SFTP. Les fichiers sont horodatés et stockés localement.
 
-Restauration Assistée : Menu interactif permettant de choisir un point de restauration et de le réinjecter sur le serveur de production.
+Restauration : Interface interactive permettant de sélectionner une archive de sauvegarde et de la réinjecter sur le serveur de production.
 
-Export Business Intelligence (CSV) : Extraction directe des données via le moteur Pandas pour générer des fichiers CSV exploitables par la direction (comptabilité, logistique).
+Export CSV : Extraction et conversion des données via la bibliothèque Pandas pour générer des fichiers exploitables par les services logistiques et comptables.
 
 3. Architecture Technique
-L'application est conçue pour être agnostique de l'OS (compatible Windows et Linux).
+L'application est conçue pour être agnostique du système d'exploitation, assurant une compatibilité totale entre les environnements Windows et Linux.
 
-Technologies utilisées :
 Langage : Python 3.x
 
-Communication Serveur : Paramiko (SSH/SFTP) pour les échanges sécurisés.
+Bibliothèques de communication : Paramiko (SSH/SFTP)
 
-Traitement de données : Pandas & PyMySQL pour l'extraction SQL et la conversion CSV.
+Traitement de données : Pandas et PyMySQL
 
-Configuration : Fichier Configuration.json pour séparer le code des données sensibles (identifiants, IP).
+Gestion de la configuration : Fichier JSON externe pour l'isolation des paramètres sensibles.
 
-4. Installation & Préparation
-Prérequis
+4. Installation
+Dépendances
+Les bibliothèques requises doivent être installées via le gestionnaire de paquets pip :
+
 Bash
 
 pip install paramiko pymysql pandas
 Configuration
-Modifier le fichier Configuration.json à la racine du projet :
+Le fichier Configuration.json doit être présent à la racine du projet avec la structure suivante :
 
 JSON
 
-{
-  "ssh": {
-    "host": "10.5.70.50",
-    "user": "user",
-    "pass": "votre_mot_de_passe"
-  },
-  "db": {
-    "user": "admin_ntl",
-    "pass": "Ntl2026!",
-    "name": "ntl_wms"
-  },
-  "paths": {
-    "local_backup_dir": "./backups"
-  }
+{ 
+  "ssh": { 
+    "host": "10.5.70.50", 
+    "user": "user", 
+    "pass": "votre_mot_de_passe" 
+  }, 
+  "db": { 
+    "user": "admin_ntl", 
+    "pass": "Ntl2026!", 
+    "name": "ntl_wms" 
+  }, 
+  "paths": { 
+    "local_backup_dir": "./backups" 
+  } 
 }
 5. Utilisation
-L'application se lance via un terminal (PowerShell sur Windows ou Bash sur Linux) :
+Pour lancer l'interface de gestion, exécutez la commande suivante :
 
 Bash
 
 python WMSManager.py
-Un menu interactif s'affiche alors pour guider l'utilisateur.
+Un menu en ligne de commande s'affiche pour diriger l'utilisateur vers les différentes opérations.
 
-Pourquoi c'est mieux pour ton oral (Arguments à sortir au jury) :
-La Sécurité : "Contrairement à un script classique, mon application utilise des bibliothèques comme Paramiko qui gèrent proprement les tunnels SSH, évitant de laisser traîner des fichiers temporaires non sécurisés."
+6. Arborescence du projet
+Voici la structure des fichiers de ton application à inclure dans ton dépôt Git :
 
-La Portabilité : "Grâce à la bibliothèque pathlib et au test platform.system(), mon application détecte seule si elle est sur Windows ou Linux et ajuste les dossiers de sortie (Documents ou Home) automatiquement."
+Plaintext
 
-La Valeur Métier : "L'ajout du module CSV via Pandas montre que l'outil ne sert pas qu'aux techniciens, mais permet aussi de fournir des rapports de données directement exploitables par les services logistiques de NTL."
-
-L'Évolutivité : "Le code est découpé en classes et méthodes. Si demain NTL change de base de données (ex: vers PostgreSQL), il suffit de modifier une méthode sans réécrire toute l'application."
+NTL-SysToolbox/
+├── WMSManager.py          # Code source principal (logique métier)
+├── Configuration.json     # Paramètres de connexion et chemins
+├── backups/               # Dossier local de stockage des fichiers .sql
+└── README.md              # Documentation technique
