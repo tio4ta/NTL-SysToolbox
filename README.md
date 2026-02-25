@@ -67,7 +67,11 @@ python WMSManager.py
 Structure des fichiers incluse dans le dépôt Git:
 
 NTL-SysToolbox/
-├── WMSManager.py       # Code source principal
+
+├── WMSManager.py  # Code source principal
+
 ├── Configuration.json  # Paramètres de connexion
+
 ├── backups/            # Stockage des fichiers .sql
+
 └── README.md           # Documentation
