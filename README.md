@@ -1,5 +1,3 @@
-Voici une version parfaitement mise en forme de ton README.md. J'ai structuré le texte pour qu'il soit professionnel, aéré et facile à lire pour ton jury de MSPR.
-
 NTL-SysToolbox : Module WMS Manager
 1. Présentation
 Le WMS Manager est une application Python développée pour la Direction IT de Nord Transit Logistics (NTL). Elle a pour objectif de garantir la résilience et la portabilité des données du système de gestion d'entrepôt (Warehouse Management System).
