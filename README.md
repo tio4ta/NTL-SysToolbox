@@ -41,19 +41,33 @@ Le fichier Configuration.json doit être présent à la racine du projet. Voici 
 JSON
 
 { 
+
   "ssh": { 
+  
     "host": "10.5.70.50", 
+    
     "user": "user", 
+    
     "pass": "votre_mot_de_passe" 
+    
   }, 
+  
   "db": { 
+  
     "user": "admin_ntl", 
+    
     "pass": "Ntl2026!", 
+    
     "name": "ntl_wms" 
+    
   }, 
+  
   "paths": { 
+  
     "local_backup_dir": "./backups" 
+    
   } 
+  
 }
 
 5. Utilisation
