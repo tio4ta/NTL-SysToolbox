@@ -62,6 +62,7 @@ L'outil s'utilise au travers d'un menu CLI interactif. Pour lancer l'interface, 
 Bash
 
 python WMSManager.py
+
 6. Arborescence du projet
 Structure des fichiers incluse dans le dépôt Git:
 
