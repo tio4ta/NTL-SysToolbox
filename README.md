@@ -55,6 +55,7 @@ JSON
     "local_backup_dir": "./backups" 
   } 
 }
+
 5. Utilisation
 L'outil s'utilise au travers d'un menu CLI interactif. Pour lancer l'interface, exécutez :
 
