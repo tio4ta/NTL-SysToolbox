@@ -1,10 +1,12 @@
 NTL-SysToolbox : Module WMS Manager
 1. Présentation
+
 Le WMS Manager est une application Python développée pour la Direction IT de Nord Transit Logistics (NTL). Elle a pour objectif de garantir la résilience et la portabilité des données du système de gestion d'entrepôt (Warehouse Management System).
 
 Cette solution logicielle industrialise les vérifications d'exploitation et sécurise la gestion des sauvegardes de la base de données métier. En adoptant une architecture orientée objet, elle remplace les anciens scripts par un outil plus robuste, facilitant la maintenance et l'évolution future du code.
 
 2. Fonctionnalités
+
 L'application intègre les trois modules principaux demandés dans le cahier des charges:
 
 
@@ -17,6 +19,7 @@ Restauration Assistée : Interface interactive permettant de sélectionner une a
 Export Business Intelligence (CSV) : Extraction et conversion des données via la bibliothèque Pandas pour générer des fichiers exploitables par les services logistiques.
 
 3. Architecture Technique
+
 Conformément aux exigences, l'application est agnostique du système d'exploitation, assurant une compatibilité totale entre les environnements Windows et Linux.
 
 Langage : Python 3.x.
@@ -71,6 +74,7 @@ JSON
 }
 
 5. Utilisation
+
 L'outil s'utilise au travers d'un menu CLI interactif. Pour lancer l'interface, exécutez :
 
 Bash
@@ -79,6 +83,7 @@ python WMSManager.py
 
 
 6. Arborescence du projet
+
 Structure des fichiers incluse dans le dépôt Git:
 
 NTL-SysToolbox/
