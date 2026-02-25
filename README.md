@@ -66,10 +66,8 @@ python WMSManager.py
 6. Arborescence du projet
 Structure des fichiers incluse dans le dépôt Git:
 
-Plaintext
-
 NTL-SysToolbox/
-├── WMSManager.py          # Code source principal (logique métier)
-├── Configuration.json     # Paramètres de connexion et chemins
-├── backups/               # Dossier local de stockage des fichiers .sql
-└── README.md              # Documenta
+├── WMSManager.py       # Code source principal
+├── Configuration.json  # Paramètres de connexion
+├── backups/            # Stockage des fichiers .sql
+└── README.md           # Documentation
